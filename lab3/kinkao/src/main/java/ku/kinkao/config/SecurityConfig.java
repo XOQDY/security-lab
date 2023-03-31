@@ -70,4 +70,10 @@ public class SecurityConfig {
    public PasswordEncoder encoder() {
        return new BCryptPasswordEncoder(12);
    }
+   @Override
+   public void configure(WebSecurity web) throws Exception {
+       web
+               .ignoring()
+               .antMatchers("/h2-console/**");
+   }
 }
