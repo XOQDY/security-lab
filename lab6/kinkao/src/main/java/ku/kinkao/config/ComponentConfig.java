@@ -11,4 +11,9 @@ public class ComponentConfig {
    public ModelMapper modelMapper() {
        return new ModelMapper();
    }
+
+   @Bean
+   public RestTemplate restTemplate(RestTemplateBuilder builder) {
+       return builder.build();
+   }
 }
