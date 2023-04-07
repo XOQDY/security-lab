@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/review")
@@ -41,7 +42,9 @@ public class ReviewController {
 
    @PostMapping("/add")
    public String createReview(@ModelAttribute ReviewRequest review,
-                               Model model) {
+                              Model model, Principal principal) {
+       String username = principal.getName();
+       review.setUsername(username);
        reviewService.createReview(review);
        return "redirect:/review/" + review.getRestaurantId();
    }
