@@ -27,7 +27,7 @@ public class RestaurantController {
    }
    
    @PostMapping("/restaurant/add")
-   public String addRestaurant(@ModelAttribute RestaurantDto restaurant,
+   public String addRestaurant(@ModelAttribute RestaurantRequest restaurant,
                                Model model) {
        restaurantService.create(restaurant);
        return "redirect:/restaurant";

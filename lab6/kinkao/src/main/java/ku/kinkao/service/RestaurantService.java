@@ -1,6 +1,7 @@
 package ku.kinkao.service;
 
-import ku.kinkao.dto.RestaurantDto;
+import ku.kinkao.dto.RestaurantRequest;
+import ku.kinkao.dto.RestaurantResponse;
 import ku.kinkao.model.Restaurant;
 import ku.kinkao.repository.RestaurantRepository;
 import org.modelmapper.ModelMapper;
@@ -20,14 +21,19 @@ public class RestaurantService {
    @Autowired
    private ModelMapper modelMapper;
 
+   public RestaurantResponse getRestaurantById(UUID restaurantId) {
+        Restaurant restaurant = repository.findById(restaurantId).get();
+        return modelMapper.map(restaurant, RestaurantResponse.class);
+    }
+
    //   ----> we are mapping DAO → DTO
-   public List<RestaurantDto> getRestaurants() {
+   public List<RestaurantResponse> getRestaurants() {
        List<Restaurant> restaurants = repository.findAll();
 
-       List<RestaurantDto> dtos = restaurants
+       List<RestaurantResponse> dtos = restaurants
                .stream()
                .map(restaurant -> modelMapper.map(restaurant, 
-                                                  RestaurantDto.class))
+                                                  RestaurantResponse.class))
                .collect(Collectors.toList());
 
        return dtos;
@@ -35,7 +41,7 @@ public class RestaurantService {
 
 
    //   ----> we are mapping DTO → DAO
-   public void create(RestaurantDto restaurantDto) {
+   public void create(RestaurantRequest restaurantDto) {
        Restaurant restaurant = modelMapper.map(restaurantDto, 
                                                Restaurant.class);
        restaurant.setCreatedAt(Instant.now());
