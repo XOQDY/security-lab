@@ -4,6 +4,7 @@ import ku.kinkao.service.UserDetailsServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,13 +35,12 @@ public class SecurityConfig {
 
        http
                .authorizeRequests()
-               .antMatchers("/home", "/signup",
-                            "/css/**", "/js/**").permitAll()
-               .antMatchers("/restaurant/add")
-                    .access("hasRole('ROLE_ADMIN')")
-               .antMatchers("/restaurant", "/review", "/review/**")
-                    .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-               .anyRequest().authenticated()
+               .mvcMatchers(HttpMethod.GET, "/api/review")
+               .hasAuthority("SCOPE_read:reviews")
+               .mvcMatchers(HttpMethod.POST, "/api/review")
+               .hasAuthority("SCOPE_create:reviews")
+               .anyRequest()
+               .authenticated()
        .and()
 
 
