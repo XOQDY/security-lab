@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container w-50 p-3">
+  <h1 class="display-5">Sign Up</h1>
+
+  <form action="#" th:action="@{/signup}" th:object="${signupDto}" method="POST">
+
+    <div class="mb-3">
+      <label for="inputName">Name</label>
+      <input id="inputName" type="text" th:field="*{name}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputUsername">Username</label>
+      <input id="inputUsername" type="text" th:field="*{username}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+    </div>
+    <div class="mb-3">
+      <label for="inputPassword">Password</label>
+      <input id="inputPassword" type="password" th:field="*{password}" class="form-control">
+      <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
+
+    <button id="submit-button" type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>
+</body>
+</html>
