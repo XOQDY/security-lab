@@ -1,5 +1,6 @@
 package ku.book.model;
 
+import ku.book.config.AttributeEncryptor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +19,12 @@ public class User {
     @GeneratedValue
     private UUID id;
 
+    @Convert(converter = AttributeEncryptor.class)
     private String username;
+
     private String password;
+
+    @Convert(converter = AttributeEncryptor.class)
     private String name;
 
     private Instant createdAt;
