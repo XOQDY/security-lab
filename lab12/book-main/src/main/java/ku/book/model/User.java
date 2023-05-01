@@ -3,7 +3,9 @@ package ku.book.model;
 import ku.book.config.AttributeEncryptor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnTransformer;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,12 +21,20 @@ public class User {
     @GeneratedValue
     private UUID id;
 
-    @Convert(converter = AttributeEncryptor.class)
+    @Column(columnDefinition="VARBINARY(256)")
+    @ColumnTransformer(
+            read = "cast(AES_DECRYPT(username, UNHEX('key')) as char(255))",
+            write = "AES_ENCRYPT(?, UNHEX('key'))"
+    )
     private String username;
 
     private String password;
 
-    @Convert(converter = AttributeEncryptor.class)
+    @Column(columnDefinition="VARBINARY(256)")
+    @ColumnTransformer(
+            read = "cast(AES_DECRYPT(name, UNHEX('key')) as char(255))",
+            write = "AES_ENCRYPT(?, UNHEX('key'))"
+    )
     private String name;
 
     private Instant createdAt;
